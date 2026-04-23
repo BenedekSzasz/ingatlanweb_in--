@@ -26,7 +26,8 @@ var propertyList = await getProperties()
 
 const doc = { 
     tbody: document.querySelector('#tbody'),
-    aboutButton: document.querySelector('#aboutButton')
+    aboutButton: document.querySelector('#aboutButton'),
+    saveButton: document.querySelector('#saveButton')
 };
 
 // propertyList.forEach(prop => {
@@ -57,5 +58,15 @@ doc.aboutButton.addEventListener('click', () => {
     })
 })
 
+doc.saveButton.addEventListener('click', async () => {
+    const property = {
+        type: 'rent',
+        price: 98,
+        city: 'Pécs',
+        baseArea: 59
+    }
+    const res = await createProperty(property)
+    console.log(res)
+})
 
 
