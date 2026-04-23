@@ -27,9 +27,9 @@ const doc = {
     aboutButton: document.querySelector('#aboutButton')
 };
 
-propertyList.forEach(prop => {
+// propertyList.forEach(prop => {
     
-})
+// })
 
 var rows = ''
 propertyList.forEach(prop => {
