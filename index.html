@@ -1,3 +1,13 @@
+<!--
+File: index.html
+Author: Szász Benedek
+Copyright: 2026, Szász Benedek
+Group: Szoft I N
+Date: 2026-04-23
+Github: https://github.com/BenedekSzasz/
+Licenc: GNU GPL
+-->
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -8,12 +18,23 @@
 <body>
 
   <div class="container">
-    <h1>Sip</h1>
-    <p>
-      Sip generated project
-    </p>
+    <button id="aboutButton" class="btn btn-primary mt-3">Névjegy</button>
+    <h1>Ingatlan</h1>
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Típus (eladó/kiadó)</th>
+            <th>Ár (LC)</th>
+            <th>Település</th>
+            <th>Alapterület (m²)</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
   </div>
     
     <script type="module" src="src/app.js"></script>
+
 </body>
 </html>
