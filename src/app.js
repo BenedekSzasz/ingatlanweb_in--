@@ -27,7 +27,6 @@ var propertyList = await getProperties()
 const doc = { 
     tbody: document.querySelector('#tbody'),
     aboutButton: document.querySelector('#aboutButton'),
-    saveButton: document.querySelector('#saveButton'),
     propertyForm: document.querySelector('#propertyForm')
 };
 
@@ -36,29 +35,37 @@ doc.propertyForm.addEventListener('submit',  (event) => {
     console.log("Mükszik")
 
     const propertyForm = new FormData(event.target)
-    const type =propertyForm.get('type')
-    const price = propertyForm.get('price')
-    const city = propertyForm.get('city')
-    const baseArea = propertyForm.get('baseArea')
+    const property = {
+    type: propertyForm.get('type'),
+    price: propertyForm.get('price'),
+    city: propertyForm.get('city'),
+    baseArea: propertyForm.get('baseArea')
+    }
+    startSave(property)
 })
 
 // propertyList.forEach(prop => {
     
 // })
-
-var rows = ''
-propertyList.forEach(prop => {
+function render() {
+  var rows = '';
+  propertyList.forEach(prop => {
     var row = `
-        <tr>
-            <td>${prop.id}</td>
-            <td>${prop.type}</td>
-            <td>${prop.price}</td>
-            <td>${prop.city}</td>
-            <td>${prop.baseArea}</td>
-        </tr>
-        `
-    rows += row
-})
+      <tr>
+        <td>${prop.id}</td>
+        <td>${prop.type}</td>
+        <td>${prop.price}</td>
+        <td>${prop.city}</td>
+        <td>${prop.baseArea}</td>
+      </tr>
+    `;
+    rows += row;
+  });
+  return rows;
+}
+
+doc.tbody.innerHTML = render();
+
 
 doc.tbody.innerHTML = rows
 
@@ -70,21 +77,12 @@ doc.aboutButton.addEventListener('click', () => {
     })
 })
 
-doc.saveButton.addEventListener('click', async () => {
-    startSave()
-})
-
-function startSave () {
-    createNewProperty()
+function startSave (property) {
+    createNewProperty(property)
 }
-function createNewProperty () {
-    const property = {
-        type: 'rent',
-        price: 98,
-        city: 'Pécs',
-        baseArea: 59
-    }
+async function createNewProperty () {
     const res = await createProperty(property)
+    render()
     console.log(res)
 }
 function updateOneProperty () {}
