@@ -27,8 +27,20 @@ var propertyList = await getProperties()
 const doc = { 
     tbody: document.querySelector('#tbody'),
     aboutButton: document.querySelector('#aboutButton'),
-    saveButton: document.querySelector('#saveButton')
+    saveButton: document.querySelector('#saveButton'),
+    propertyForm: document.querySelector('#propertyForm')
 };
+
+doc.propertyForm.addEventListener('submit',  (event) => {
+    event.preventDefault()
+    console.log("Mükszik")
+
+    const propertyForm = new FormData(event.target)
+    const type =propertyForm.get('type')
+    const price = propertyForm.get('price')
+    const city = propertyForm.get('city')
+    const baseArea = propertyForm.get('baseArea')
+})
 
 // propertyList.forEach(prop => {
     
@@ -59,6 +71,13 @@ doc.aboutButton.addEventListener('click', () => {
 })
 
 doc.saveButton.addEventListener('click', async () => {
+    startSave()
+})
+
+function startSave () {
+    createNewProperty()
+}
+function createNewProperty () {
     const property = {
         type: 'rent',
         price: 98,
@@ -67,6 +86,5 @@ doc.saveButton.addEventListener('click', async () => {
     }
     const res = await createProperty(property)
     console.log(res)
-})
-
-
+}
+function updateOneProperty () {}

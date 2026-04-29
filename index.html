@@ -53,11 +53,33 @@ Licenc: GNU GPL
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+
+          <form id="propertyForm">
+            <div>
+              <label for="id" class="form-label">ID</label>
+              <input type="text" id="id" name="id" class="form-control" readonly>
+            </div>
+            <div>
+              <label for="type" class="form-label">Típus (eladó/kiadó)</label>
+              <input type="text" id="type" name="type" class="form-control">
+            </div>
+            <div>
+              <label for="price" class="form-label">Ár (LC)</label>
+              <input type="text" id="price" name="price" class="form-control">
+            </div>
+            <div>
+              <label for="city" class="form-label">Település</label>
+              <input type="text" id="city" name="city" class="form-control">
+            </div>
+            <div>
+              <label for="baseArea" class="form-label">Alapterület (m²)</label>
+              <input type="text" id="baseArea" name="baseArea" class="form-control">
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <form="propertyForm" class="btn btn-primary">Mentés</button>
         </div>
       </div>
     </div>
