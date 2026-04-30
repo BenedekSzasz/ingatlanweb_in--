@@ -30,5 +30,16 @@ async function createProperty (property){
     }
     return "Valami";
 }
-
-export { getProperties, createProperty }
+async function deleteProperty (id){
+    try {
+        const response = await fetch(url + "/" + id,{
+            method: "DELETE"
+        })
+        const result = await response.json()
+        return result
+    } catch (error) {
+        console.error("Hiba! Az ingatlan törlése sikertelen!")
+        console.error(err)
+    }
+}
+export { getProperties, createProperty, deleteProperty }

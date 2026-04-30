@@ -15,8 +15,11 @@ import Swal from 'sweetalert2'
 
 import { 
     getProperties, 
-    createProperty 
+    createProperty,
+    deleteProperty 
 } from './propertyService.js'
+
+// deleteProperty(13)
 
       //lista, tömb
 
@@ -43,6 +46,10 @@ doc.propertyForm.addEventListener('submit',  (event) => {
     }
     startSave(property)
 })
+function deleteOneProperty (id) {
+    deleteProperty(id)
+    
+}
 
 // propertyList.forEach(prop => {
     
@@ -57,15 +64,16 @@ function render() {
         <td>${prop.price}</td>
         <td>${prop.city}</td>
         <td>${prop.baseArea}</td>
+        <td>
+          <button class="btn btn-danger" onclick="deleteOneProperty">Törlés</button>
+        </td>
       </tr>
     `;
     rows += row;
   });
   return rows;
-}
-
-doc.tbody.innerHTML = render();
-
+    }
+  doc.tbody.innerHTML = render();
 
 doc.tbody.innerHTML = rows
 
@@ -86,3 +94,6 @@ async function createNewProperty () {
     console.log(res)
 }
 function updateOneProperty () {}
+
+
+render()
