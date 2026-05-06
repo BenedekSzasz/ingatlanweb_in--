@@ -42,4 +42,25 @@ async function deleteProperty (id){
         console.error(err)
     }
 }
-export { getProperties, createProperty, deleteProperty }
+
+async function updateProperty(property) {
+    try {
+        const response = await fetch(url + "/" + property.id, {
+            method: "PUT",
+            body: JSON.stringify(property),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        const result = response.json()
+        return result
+    } catch (error) {
+        console.error("Hiba! Az ingatlan frissítése sikertelen!")
+        console.error(err)
+    }
+}
+export { 
+    getProperties, 
+    createProperty, 
+    deleteProperty, 
+    updateProperty }

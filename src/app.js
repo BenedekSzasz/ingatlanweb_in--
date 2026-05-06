@@ -16,7 +16,8 @@ import Swal from 'sweetalert2'
 import { 
     getProperties, 
     createProperty,
-    deleteProperty 
+    deleteProperty,
+    updateProperty 
 } from './propertyService.js'
 
 // deleteProperty(13)
@@ -26,6 +27,7 @@ import {
 
 console.log(await getProperties())
 var propertyList = await getProperties()
+var adding = true
 
 const doc = { 
     tbody: document.querySelector('#tbody'),
@@ -33,67 +35,116 @@ const doc = {
     propertyForm: document.querySelector('#propertyForm')
 };
 
-doc.propertyForm.addEventListener('submit',  (event) => {
+doc.propertyForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    console.log("Mükszik")
+    console.log('műkszik...')
 
     const propertyForm = new FormData(event.target)
+
     const property = {
-    type: propertyForm.get('type'),
-    price: propertyForm.get('price'),
-    city: propertyForm.get('city'),
-    baseArea: propertyForm.get('baseArea')
+        id: Number(propertyForm.get('id')),
+        type: propertyForm.get('type'),
+        price: Number(propertyForm.get('price')),
+        city: propertyForm.get('city'),
+        baseArea: Number(propertyForm.get('baseArea'))
     }
+
     startSave(property)
 })
-function deleteOneProperty (id) {
+function deleteOneProperty(id) {
     deleteProperty(id)
-    
+    propertyList = propertyList.filter(prop => prop.id !== id)
+    render()
 }
+
+window.deleteOneProperty = deleteOneProperty
+window.editProperty = editProperty
 
 // propertyList.forEach(prop => {
     
 // })
-function render() {
-  var rows = '';
-  propertyList.forEach(prop => {
-    var row = `
-      <tr>
-        <td>${prop.id}</td>
-        <td>${prop.type}</td>
-        <td>${prop.price}</td>
-        <td>${prop.city}</td>
-        <td>${prop.baseArea}</td>
-        <td>
-          <button class="btn btn-danger" onclick="deleteOneProperty">Törlés</button>
-        </td>
-      </tr>
-    `;
-    rows += row;
-  });
-  return rows;
-    }
-  doc.tbody.innerHTML = render();
+// app.js
+// ...
 
-doc.tbody.innerHTML = rows
+function render() {
+    var rows = '';
+    doc.tbody.innerHTML = '';
+    propertyList.forEach(prop => {
+        var row = `
+        <tr>
+            <td>${prop.id}</td>
+            <td>${prop.type}</td>
+            <td>${prop.price}</td>
+            <td>${prop.city}</td>
+            <td>${prop.baseArea}</td>
+            <td>
+                <button onclick="deleteOneProperty(${prop.id})"
+                class="btn btn-danger">
+                Törlés
+                </button>
+
+                <button onclick="editProperty(this)"
+                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                class="btn btn-success"
+                data-id="${prop.id}"
+                data-type="${prop.type}"
+                data-price="${prop.price}"
+                data-city="${prop.city}"
+                data-baseArea="${prop.baseArea}"
+                >
+                    Szerkesztés
+                </button>
+            </td>
+        </tr>
+    `;
+        rows += row;
+    });
+    doc.tbody.innerHTML = rows;
+}
+render()
 
 doc.aboutButton.addEventListener('click', () => {
     
     Swal.fire({
         title: "Ingatlan",
-        text: "Szász Benedek, IN, 2026-04-23",
+        text: "Verzió: 1.0.0\nSzász Benedek, IN, 2026-04-23",
     })
 })
 
 function startSave (property) {
-    createNewProperty(property)
+    if (adding) {
+        createNewProperty(property)
+    } else {
+        updateOneProperty(property)
+    }
 }
-async function createNewProperty () {
+async function createNewProperty(property) {
     const res = await createProperty(property)
+    propertyList.push(res)
     render()
     console.log(res)
+    doc.propertyForm.reset()
 }
-function updateOneProperty () {}
+function updateOneProperty (property) {
+  console.log(property)
+  await updateProperty(property)
+  propertyList = propertyList.map(prop => {
+    if (prop.id == property.id){
+      return property
+    }else{
+      return prop
+    }
+  })
+  render()
+  adding = true
+}
 
+function editProperty(e) {
+    adding = false
+    propertyForm.id.value = e.getAttribute('data-id')
+    propertyForm.type.value = e.getAttribute('data-type')
+    propertyForm.price.value = e.getAttribute('data-price')
+    propertyForm.city.value = e.getAttribute('data-city')
+    propertyForm.baseArea.value = e.getAttribute('data-baseArea')
 
-render()
+}
