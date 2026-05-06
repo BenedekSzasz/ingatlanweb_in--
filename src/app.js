@@ -20,24 +20,23 @@ import {
     updateProperty 
 } from './propertyService.js'
 
-// deleteProperty(13)
-
-      //lista, tömb
-
-
 console.log(await getProperties())
 var propertyList = await getProperties()
 var adding = true
 
-const doc = { 
+const doc = {
     tbody: document.querySelector('#tbody'),
     aboutButton: document.querySelector('#aboutButton'),
-    propertyForm: document.querySelector('#propertyForm')
-};
+    propertyForm: document.querySelector('#propertyForm'),
+    closeButton: document.querySelector('#closeButton')
+}
+
+doc.closeButton.addEventListener('click', () => {
+    doc.propertyForm.reset()
+})
 
 doc.propertyForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    console.log('műkszik...')
 
     const propertyForm = new FormData(event.target)
 
@@ -51,6 +50,7 @@ doc.propertyForm.addEventListener('submit', (event) => {
 
     startSave(property)
 })
+
 function deleteOneProperty(id) {
     deleteProperty(id)
     propertyList = propertyList.filter(prop => prop.id !== id)
@@ -60,11 +60,7 @@ function deleteOneProperty(id) {
 window.deleteOneProperty = deleteOneProperty
 window.editProperty = editProperty
 
-// propertyList.forEach(prop => {
-    
-// })
-// app.js
-// ...
+
 
 function render() {
     var rows = '';
@@ -111,7 +107,7 @@ doc.aboutButton.addEventListener('click', () => {
     })
 })
 
-function startSave (property) {
+function startSave(property) {
     if (adding) {
         createNewProperty(property)
     } else {
@@ -125,18 +121,18 @@ async function createNewProperty(property) {
     console.log(res)
     doc.propertyForm.reset()
 }
-function updateOneProperty (property) {
-  console.log(property)
-  await updateProperty(property)
-  propertyList = propertyList.map(prop => {
-    if (prop.id == property.id){
-      return property
-    }else{
-      return prop
-    }
-  })
-  render()
-  adding = true
+async function updateOneProperty(property) {
+    console.log(property)
+    await updateProperty(property)
+    propertyList = propertyList.map(prop => {
+        if (prop.id === property.id) {
+            return property
+        } else {
+            return prop
+        }
+    })
+    render()
+    adding = true
 }
 
 function editProperty(e) {
