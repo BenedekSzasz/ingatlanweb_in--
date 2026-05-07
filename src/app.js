@@ -13,11 +13,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './style.css'
 import Swal from 'sweetalert2'
 
-import { 
-    getProperties, 
+import {
+    getProperties,
     createProperty,
     deleteProperty,
-    updateProperty 
+    updateProperty
 } from './propertyService.js'
 
 console.log(await getProperties())
@@ -60,11 +60,8 @@ function deleteOneProperty(id) {
 window.deleteOneProperty = deleteOneProperty
 window.editProperty = editProperty
 
-
-
 function render() {
-    var rows = '';
-    doc.tbody.innerHTML = '';
+    var rows = ''
     propertyList.forEach(prop => {
         var row = `
         <tr>
@@ -92,18 +89,18 @@ function render() {
                 </button>
             </td>
         </tr>
-    `;
-        rows += row;
-    });
-    doc.tbody.innerHTML = rows;
+    `
+        rows += row
+    })
+    doc.tbody.innerHTML = rows
 }
+
 render()
 
 doc.aboutButton.addEventListener('click', () => {
-    
     Swal.fire({
-        title: "Ingatlan",
-        text: "Verzió: 1.0.0\nSzász Benedek, IN, 2026-04-23",
+        title: 'Ingatlan',
+        text: 'Verzió: 1.0.0 Erős István, IN, 2026-04-23'
     })
 })
 
